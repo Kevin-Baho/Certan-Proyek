@@ -132,3 +132,127 @@ $$
 - **HUD Ikon Skill (Pojok Kiri Bawah)**: Tampilan visual ikon katana dan siluet bayangan dengan overlay cooldown serta timer sisa detik secara real-time.
 - **[H]**: Beralih Tingkat Kesulitan (**NORMAL** / **HARD**).
 - **[R]**: Mengulang permainan (*Restart*) setelah menang atau kalah.
+
+
+
+
+
+# Dataset DUNGEON SURVIVAL: Bayesian Shadow Ninja
+
+## 1. Deskripsi Dataset
+
+Dataset **DUNGEON SURVIVAL: Bayesian Shadow Ninja** merupakan kumpulan data yang digunakan dalam proyek game untuk menerapkan metode **Teorema Bayes** dan **Expected Utility**.
+
+Dataset ini berisi informasi mengenai probabilitas kemunculan ancaman, karakteristik monster, petunjuk suara, serta nilai keuntungan dan kerugian dari setiap kondisi.
+
+Dataset digunakan oleh sistem untuk memperkirakan ancaman berdasarkan suara yang didengar pemain dan membantu menentukan keputusan dalam permainan.
+
+## 2. Tujuan Dataset
+
+Dataset ini memiliki beberapa tujuan, yaitu:
+
+- Memperkirakan jenis ancaman berdasarkan petunjuk suara.
+- Menghitung probabilitas kemunculan monster menggunakan Teorema Bayes.
+- Membantu menentukan keputusan menggunakan Expected Utility.
+- Menyediakan informasi karakteristik monster.
+- Mendukung pengaturan tingkat kesulitan permainan.
+
+## 3. Struktur Dataset
+
+Dataset tersedia dalam format CSV dengan nama file:
+
+`dataset_dungeon_survival.csv`
+
+Dataset terdiri dari **50 baris data dan 17 kolom**.
+
+### Penjelasan Kolom
+
+| Nama Kolom | Deskripsi |
+|---|---|
+| `stage` | Tahapan permainan, dari 1 sampai 5. |
+| `difficulty` | Tingkat kesulitan permainan, yaitu normal atau hard. |
+| `threat` | Kode jenis ancaman. |
+| `threat_name_id` | Nama atau identitas ancaman. |
+| `prior_probability` | Probabilitas awal kemunculan ancaman. |
+| `utility` | Nilai keuntungan atau kerugian dari suatu kondisi. |
+| `hp` | Jumlah health point monster. |
+| `damage` | Besarnya kerusakan yang diberikan monster. |
+| `speed` | Kecepatan monster. |
+| `detection_range` | Jarak deteksi monster. |
+| `chase_speed` | Kecepatan monster saat mengejar pemain. |
+| `gold_reward` | Hadiah gold dari monster. |
+| `likelihood_silence` | Kemungkinan munculnya suara diam. |
+| `likelihood_faint_sound` | Kemungkinan munculnya suara samar. |
+| `likelihood_growl` | Kemungkinan munculnya suara geraman. |
+| `likelihood_heavy_growl` | Kemungkinan munculnya geraman keras. |
+| `likelihood_roar` | Kemungkinan munculnya suara raungan. |
+
+## 4. Kategori Ancaman
+
+Dataset memiliki lima kategori kondisi ancaman:
+
+| Kategori | Deskripsi |
+|---|---|
+| Safe | Kondisi aman tanpa ancaman monster. |
+| Goblin Scout | Monster jenis goblin. |
+| Orc Sentry | Monster jenis orc. |
+| Shadow Stalker | Monster penguntit bayangan. |
+| Dungeon Warden | Monster penjaga dungeon. |
+
+## 5. Penerapan Teorema Bayes
+
+Teorema Bayes digunakan untuk memperkirakan kemungkinan jenis ancaman berdasarkan petunjuk suara yang diterima pemain.
+
+Informasi yang digunakan meliputi:
+
+- **Prior Probability:** Probabilitas awal kemunculan suatu ancaman.
+- **Likelihood:** Kemungkinan suatu petunjuk suara muncul ketika ancaman tertentu terjadi.
+
+Sebagai contoh, ketika pemain mendengar suara raungan (*roar*), sistem menggunakan nilai `prior_probability` dan `likelihood_roar` untuk memperbarui probabilitas setiap ancaman.
+
+Dengan demikian, sistem dapat memperkirakan jenis monster yang kemungkinan berada di sekitar pemain.
+
+## 6. Penerapan Expected Utility
+
+Expected Utility digunakan sebagai dasar pertimbangan dalam menentukan keputusan berdasarkan nilai keuntungan dan kerugian.
+
+Kolom `utility` menyediakan nilai utilitas untuk setiap kondisi ancaman. Nilai tersebut dapat digunakan sistem untuk mempertimbangkan tindakan yang memberikan hasil paling menguntungkan bagi pemain.
+
+## 7. Cara Menggunakan Dataset
+
+Dataset dapat dibaca menggunakan Python dengan bantuan library Pandas.
+
+```python
+import pandas as pd
+
+# Membaca dataset
+df = pd.read_csv("dataset_dungeon_survival.csv")
+
+# Menampilkan seluruh dataset
+print(df)
+
+# Menampilkan lima data pertama
+print(df.head())
+
+# Melihat informasi dataset
+print(df.info())
+```
+
+Pastikan file `dataset_dungeon_survival.csv` berada di direktori yang sesuai dengan lokasi program Python.
+
+## 8. Format dan Sumber Data
+
+- **Format:** CSV (Comma-Separated Values)
+- **Jumlah Data:** 50 baris
+- **Jumlah Kolom:** 17 kolom
+- **Sumber:** Konfigurasi dataset pada proyek DUNGEON SURVIVAL: Bayesian Shadow Ninja.
+
+**Catatan:** Dataset ini merupakan data konfigurasi dan probabilitas yang didefinisikan dalam kode proyek, bukan kumpulan hasil observasi langsung dari aktivitas pemain.
+
+## 9. Kesimpulan
+
+Dataset DUNGEON SURVIVAL: Bayesian Shadow Ninja merupakan komponen pendukung dalam penerapan kecerdasan buatan pada permainan.
+
+Melalui Teorema Bayes, sistem dapat memperkirakan ancaman berdasarkan petunjuk suara. Sementara itu, Expected Utility digunakan untuk membantu mempertimbangkan keputusan berdasarkan nilai keuntungan dan kerugian.
+
+Kombinasi kedua metode tersebut mendukung pengambilan keputusan yang lebih terarah dalam permainan.
