@@ -9,7 +9,47 @@
 
 **"DUNGEON SURVIVAL: Bayesian Shadow Ninja"** adalah game stealth-action 2D top-down berkecepatan tinggi yang menggabungkan gameplay aksi taktis ala *Hunter Assassin* dengan sistem penalaran ketidakpastian (*Uncertainty AI*) bergaya *Wumpus World*.
 
-Peta dungeon diperbanyak menjadi **43 Ruangan Beragam Bentuk (Multi-Shape Rooms)** yang ditampilkan secara langsung dalam **1 layar penuh**. 
+Peta dungeon diperbanyak menjadi **43 Ruangan Beragam Bentuk (Multi-Shape Rooms)** yang ditampilkan secara langsung dalam **1 layar penuh**.
+
+---
+
+## Panduan Instalasi & Cara Menjalankan
+
+### 1. Prasyarat Sistem
+- **Python**: Versi `3.8` atau yang lebih baru (disarankan Python `3.10` / `3.11` / `3.12`).
+- **Sistem Operasi**: Windows, macOS, atau Linux.
+
+### 2. Instalasi Dependensi
+Game ini hanya memerlukan pustaka eksternal **Pygame** untuk grafis, audio synthesizer, dan penanganan input. Buka terminal (Command Prompt, PowerShell, atau Terminal) di folder proyek ini, lalu jalankan:
+
+```bash
+pip install pygame
+```
+
+*(Opsional: Jika memiliki beberapa versi Python di komputer, gunakan `python -m pip install pygame` atau `py -m pip install pygame`)*.
+
+### 3. Menjalankan Permainan
+Setelah dependensi terpasang, jalankan berkas utama:
+
+```bash
+python dungeon_game.py
+```
+
+Jika di Windows menggunakan Python Launcher:
+```powershell
+py dungeon_game.py
+```
+
+---
+
+## Struktur Berkas Proyek
+
+| Berkas | Peran & Deskripsi |
+|---|---|
+| `dungeon_game.py` | Berkas eksekusi utama (*Main Game Engine*). Mengatur grafis Pygame, pergerakan karakter, logika dash menyergap, monster AI, partikel, audio sintetis, serta antarmuka (HUD & Ikon Skill). |
+| `ai_model.py` | Engine inferensi probabilistik: menghitung probabilitas posterior Bayesian $P(H \mid E)$, *Maximum Expected Utility* (MEU), dan Entropi Shannon untuk rekomendasi rute teraman. |
+| `dataset.py` | Matriks probabilitas prior kedalaman lantai (`STAGE_PRIORS`, `STAGE_PRIORS_HARD`), tabel likelihood bukti suara (*clue likelihood*), dan matriks utilitas reward/penalty aksi. |
+| `README.md` | Dokumentasi lengkap proyek, teori Bayesian, kontrol, dan panduan instalasi. |
 
 ---
 
@@ -81,11 +121,14 @@ $$
 
 ## Kontrol Permainan & Skill Ninja
 
-- **W, A, S, D** atau **Tombol Panah**: Bergerak lincah
-- **[SPASI]**: **Serangan Manual Pedang Katana** (Efek tebasan sabit emas-perak & tebasan bilah pedang). Menyerang tidak lagi otomatis; tekan SPASI saat berada di samping/belakang monster. Saat **Skill 2 (Vanish)** aktif, jarak serangan pertama **meningkat drastis** (85px Ambush Strike) untuk menyergap musuh dari kejauhan!
-- **Serang dari Samping / Belakang**: 3 hit untuk membunuh saat monster patroli; monster langsung mengamuk & kebal saat mengejar, wajib bersembunyi di balik balok tengah.
-- **Hindari Serangan Depan**: Monster akan menangkis dan mencakar balik jika diserang frontal atau saat sedang mengejar.
-- **[1] Skill 1 — Dash Strike**: Menerjang ke depan dan melancarkan tebasan beruntun berkecepatan tinggi sepanjang pedang ke monster di depannya hingga langsung mati (Cooldown: **2,3 detik** — terlindung dari menembus dinding)
-- **[2] Skill 2 — Vanish**: Menghilang (transparan), monster tidak dapat mendeteksi keberadaan ninja selama **5 detik** atau sampai menyerang (Cooldown: **9 detik**)
-- **[H]**: Ganti Tingkat Kesulitan (**NORMAL** / **HARD**)
-- **[R]**: Mengulang permainan (*Restart*) setelah menang atau kalah
+- **W, A, S, D** atau **Tombol Panah**: Bergerak lincah di dalam dungeon.
+- **[SPASI] — Serangan Dash Menyergap Manual**: 
+  - Ninja melakukan dash kilat menyergap ke arah monster dan melancarkan tebasan sabit emas-perak.
+  - **Syarat Posisi**: Serangan **hanya bisa dilakukan jika musuh berada di samping atau belakang kita**. Menekan `SPASI` di ruang kosong atau tepat di depan muka musuh tidak akan memicu serangan.
+  - Saat **Skill 2 (Vanish)** aktif, jangkauan sergapan meningkat drastis hingga **85 px** untuk menyergap dari bayangan.
+  - Tampilan visual bersih tanpa teks angka/kata melayang (*no floating damage text*).
+- **[1] Skill 1 — Dash Strike**: Menerjang lurus ke depan dan melancarkan tebasan beruntun berkecepatan tinggi sepanjang pedang ke monster di depannya hingga langsung mati (Cooldown: **2,3 detik** — dilengkapi proteksi anti-tembus dinding dan balok).
+- **[2] Skill 2 — Vanish**: Menghilang (transparan), monster tidak dapat mendeteksi keberadaan ninja selama **5 detik** atau sampai melancarkan serangan (Cooldown: **9 detik**).
+- **HUD Ikon Skill (Pojok Kiri Bawah)**: Tampilan visual ikon katana dan siluet bayangan dengan overlay cooldown serta timer sisa detik secara real-time.
+- **[H]**: Beralih Tingkat Kesulitan (**NORMAL** / **HARD**).
+- **[R]**: Mengulang permainan (*Restart*) setelah menang atau kalah.
